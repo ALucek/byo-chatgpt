@@ -1,0 +1,7 @@
+{
+    "dependencies": ["."],
+    "graphs": {
+      "agent": "./agent.py:byo_chatgpt"
+    },
+    "env": ".env"
+  }
