@@ -1,15 +1,11 @@
-
 from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
 from langchain_community.tools import DuckDuckGoSearchResults
-from langchain_community.tools import BearlyInterpreterTool
 from langchain_experimental.utilities import PythonREPL
 from langgraph.prebuilt import create_react_agent
-from langchain_core.messages import HumanMessage
 from langchain_core.tools import tool, Tool
 from langchain_openai import ChatOpenAI
 from openai import OpenAI
 import requests
-import base64
 import os
 
 # Web Search
@@ -42,7 +38,7 @@ def wolfram_alpha_llm_api(query: str) -> dict:
 
 # Image Gen
 @tool
-def generate_dalle_image(prompt: str) -> str:
+def generate_dalle_image(prompt: str):
     """
     Function to generate an image using OpenAI's DALL-E model.
 
@@ -79,7 +75,7 @@ tools=[wolfram_alpha_llm_api, duckduckgo_search, generate_dalle_image, repl_tool
 # Instantiate LLM
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
 
-system_prompt="Ensure your generation of the image URL is exact, add an extra space after it to ensure no new lines mess it up. Always use Wolfram Alpha for Math questions, no matter how basic"
+system_prompt="Ensure your generation of the image URL is exact, add an extra space after it to ensure no new lines mess it up. Always use Wolfram Alpha for Math questions, no matter how basic. Always print executed python statements for logging."
 
 # Main Graph
 byo_chatgpt = create_react_agent(llm, tools, messages_modifier=system_prompt)
